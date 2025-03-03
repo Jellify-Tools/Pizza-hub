@@ -1,26 +1,15 @@
--- Fly-Skript
-local player = game:GetService("Players").LocalPlayer
-local userInput = game:GetService("UserInputService")
-local runService = game:GetService("RunService")
+local Players = game:GetService("Players")
 
-local flying = false
-local speed = 50
+for _, Player in ipairs(Players:GetPlayers()) do
+    local Character = Player.Character
 
-userInput.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.F then
-        flying = not flying
-        if flying then
-            print("Fly aktiviert!")
-        else
-            print("Fly deaktiviert!")
-        end
+    if Character then
+        local Highlight = Instance.new("Highlight")
+        Highlight.Parent = Character
+        Highlight.Adornee = Character
+        Highlight.FillTransparency = 1
+        Highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+        Highlight.OutlineTransparency = 0
+        Highlight.DepthMode = "Occluded"
     end
-end)
-
-runService.RenderStepped:Connect(function()
-    if flying then
-        local root = player.Character.HumanoidRootPart
-        root.Velocity = Vector3.new(0, 0, 0)
-        root.CFrame = root.CFrame + (userInput:GetLastInputVector() * speed)
-    end
-end)
+end
